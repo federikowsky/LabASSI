@@ -1,0 +1,123 @@
+:root {
+    --blue-opaco: rgba(0, 0, 31, 0.7);
+    --blue: #00001f;
+    --yellow: #ffec37;
+    --height-header: 80px;
+    --o: #1e0742;
+    --primary: #7952b3;
+    --secondary: #61428f;
+    --border-color: #dee2e6;
+    --max-width: 1140px;
+    --border-radius: 0.25rem;
+    --button-text: #fff;
+    --button-focus: 0 0 0 3px rgba(121, 82, 179, 0.25);
+    --link-color: #7952b3;
+    --text-main: #363636;
+    --text-bright: #000;
+    --body-bg-color: #f9fafb;
+    --footer-bg-color: #fff;
+    --form-bg-color: #fff;
+    --input-text-color: #000;
+    --input-text-disabled: #7a7a7a;
+    --input-placeholder-color: #c2c2c2;
+    --input-border-color: #ccc;
+    --input-background-color: #fff;
+    --input-disabled: #f5f5f5;
+    --input-focus: 0 0 0 3px rgba(121, 82, 179, 0.25);
+    --error: #dc3545;
+    --success: #198754;
+    --warning: #664d03;
+    --info: #0c5460;
+    --alert-error-bg: #f8d7da;
+    --alert-warning-bg: #fff3cd;
+    --alert-success-bg: #d4edda;
+    --alert-info-bg:#d1ecf1
+}
+
+body {
+    background-color: var(--blue);
+    font-family: Arial;
+}
+
+.textCenter {
+	font-size: 55px;
+	font-weight: bold;
+	background-image: url("https://assets.website-files.com/61c070585317d242d3a59789/61c070585317d282fba597e2_user.jpeg");
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+	background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: repeat;
+    line-height: 120%;
+    letter-spacing: 0.014em;
+    margin: 20px auto;
+}
+
+.textSide {
+	font-size: 40px;
+	font-weight: bold;
+	background-image: url("https://assets.website-files.com/61c070585317d242d3a59789/61c070585317d282fba597e2_user.jpeg");
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+	background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: repeat;
+    line-height: 120%;
+    letter-spacing: 0.014em;
+    margin: 15px auto;
+}
+
+
+input + small, 
+label + small, 
+textarea + small,
+.form-group > small {
+    color:var(--error)
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    vertical-align: top;
+    width:100%
+}
+
+input::placeholder {
+    color:var(--input-placeholder-color)
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 0;
+    box-shadow:var(--input-focus)
+}
+
+input[disabled], textarea[disabled] {
+    background-color: var(--input-disabled);
+    border: solid 1px var(--input-border-color);
+    box-shadow: none;
+    color: var(--input-text-disabled);
+    cursor:not-allowed
+}
+
+input.error, select.error, textarea.error {
+    border: 4px solid var(--error);
+}
+
+input.error:focus, select.error:focus, textarea.error:focus {
+    box-shadow:0 0 0 .25rem rgb(220 53 69 / 25%)
+}
+
+input.success, select.success, textarea.success {
+    border-color:var(--success)
+}
+
+input.success:focus, textarea.success:focus {
+    box-shadow:0 0 0 .25rem rgb(25 135 84 / 25%)
+}
+
+.toast-top-right {
+    top: 130px !important;
+    right: 12px;
+}

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0    # Usa l'ultima versione stabile di MySQL
+    container_name: miniworld-container
+    environment:
+      MYSQL_DATABASE: labassi               # Nome del database
+      MYSQL_USER: myuser                 # Nome utente del database
+      MYSQL_PASSWORD: mypassword         # Password per l'utente
+      MYSQL_ROOT_PASSWORD: rootpassword  # Imposta la password di root
+    ports:
+      - "3307:3306"  # Esponi la porta 3306 per connettersi a MySQL
+    volumes:
+      - db_data:/var/lib/mysql  # Persistenza dei dati
+      - ./config/db.sql:/docker-entrypoint-initdb.d/db.sql  # Monta il file SQL da eseguire
+volumes:
+  db_data:
