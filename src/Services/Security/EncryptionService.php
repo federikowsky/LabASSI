@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 namespace App\Services\Security;
 
-use App\Exceptions\Security\EncryptionException;
+use App\Exceptions\Security\DecryptException;
 
 class EncryptionService
 {
@@ -21,7 +21,7 @@ class EncryptionService
             return '';
         }
 
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher));
+        $iv = random_bytes(openssl_cipher_iv_length($this->cipher)); // Secure IV generation
         $encrypted = openssl_encrypt($data, $this->cipher, $this->key, 0, $iv);
 
         // Concat the IV with the encrypted data
@@ -31,7 +31,7 @@ class EncryptionService
         $hmac = hash_hmac($this->hmacAlgo, $encryptedData, $this->key);
 
         // Concat the encrypted data with the HMAC
-        return base64_encode($encryptedData . '.' . $hmac);
+        return base64_encode(json_encode(['data' => $encryptedData, 'hmac' => $hmac]));
     }
 
     public function decrypt($encryptedData)
@@ -41,16 +41,19 @@ class EncryptionService
         }
 
         // Decode the data
-        $decodedData = base64_decode($encryptedData);
+        $decodedData = json_decode(base64_decode($encryptedData), true);
 
-        // Split the data from the HMAC
-        list($encryptedData, $hmac) = explode('.', $decodedData);
+        if (!isset($decodedData['data']) || !isset($decodedData['hmac'])) {
+            throw new DecryptException('Invalid data format.');
+        }
+
+        $encryptedData = $decodedData['data'];
+        $hmac = $decodedData['hmac'];
 
         // Calculate the HMAC of the encrypted data and compare it with the provided HMAC
         $calculatedHmac = hash_hmac($this->hmacAlgo, $encryptedData, $this->key);
         if (!hash_equals($hmac, $calculatedHmac)) {
-            // HMAC validation failed
-            throw new EncryptionException('Data integrity check failed.');
+            throw new DecryptException('Data integrity check failed.');
         }
 
         $encryptedData = base64_decode($encryptedData);

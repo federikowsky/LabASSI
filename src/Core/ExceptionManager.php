@@ -4,32 +4,67 @@ namespace App\Core;
 
 use App\Core\Logger;
 use App\Exceptions\BaseException;
-
 use Throwable;
-
 
 class ExceptionManager
 {
     protected $logger;
 
-    // Inietta il ServiceContainer e ottieni il logger se esiste
     public function __construct(Logger $logger)
     {
-        // Prova a ottenere il logger dal container, ma non obbligarlo
         $this->logger = $logger;
     }
 
-    protected function response($view, $status)
+    protected function to_html(string $view, int $status)
     {
         return response(
             view($view)->render(), 
             $status
         )
-        ->with_headers(['Content-Type' => 'text/html'])
+        ->header('Content-Type', 'text/html')
         ->send();
     }
 
-    protected function logException(Throwable $exception)
+    protected function to_xml(string $message, int $status, array $details = [])
+    {
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'details' => $details,
+            'timestamp' => date('Y-m-d\TH:i:s\Z'),
+        ];
+
+        $xml = new \SimpleXMLElement('<response/>');
+        array_walk_recursive($response, function ($value, $key) use ($xml) {
+            $xml->addChild($key, $value);
+        });
+
+        return response(
+            $xml->asXML(),
+            $status
+        )
+        ->header('Content-Type', 'application/xml')
+        ->send();
+    }
+
+    protected function to_json(string $message, int $status, array $details = [])
+    {
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'details' => $details,
+            'timestamp' => date('Y-m-d\TH:i:s\Z'),
+        ];
+
+        return response(
+            json_encode($response),
+            $status
+        )
+        ->header('Content-Type', 'application/json')
+        ->send();
+    }
+
+    protected function log_exception(Throwable $exception)
     {
         $message = sprintf(
             "[%s] %s: %s in %s:%d\nStack trace:\n%s",
@@ -44,14 +79,30 @@ class ExceptionManager
         $this->logger->error($message);
     }
 
+    protected function is_api(): bool
+    {
+        $request = request();
+
+        return $request->expects_json() ||
+               (strpos($request->path(), 'api/') === 0);
+    }
+
     // Funzione generica per gestire errori
     public function handle(Throwable $exception)
     {
-        $this->logException($exception);
+        $this->log_exception($exception);
 
-        // Se è un'eccezione personalizzata
+        if ($this->is_api()) {
+            if ($exception instanceof BaseException) {
+                return $this->to_json($exception->getMessage(), $exception->getStatusCode());
+            }
+
+            return $this->to_json('An unexpected error occurred.', 500);
+        }
+
+        // Se non è una richiesta API, restituisci una risposta HTML
         if ($exception instanceof BaseException) {
-            return $this->response($exception->getView(), $exception->getStatusCode());
+            return $this->to_html($exception->getView(), $exception->getStatusCode());
         }
 
         // Se non è un'eccezione gestita, ritorna messaggio di errore che l'ha generata

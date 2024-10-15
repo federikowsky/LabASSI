@@ -1,7 +1,7 @@
         </main>
     <footer class="d-flex align-items-center justify-content-between p-3">
         <div class="text-white">
-            © 2023 Copyright: miniworld.com
+            © 2024 Copyright: miniworld.com
         </div>
         <div class="d-flex justify-content-center">
             <ul class="footer-list px-0 py-2">

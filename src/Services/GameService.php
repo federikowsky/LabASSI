@@ -14,9 +14,9 @@ class GameService
         $this->gameModel = $gameModel;
     }
 
-    public function get_games()
+    public function games()
     {
-        return $this->gameModel->get_games();
+        return $this->gameModel->games();
     }
 
     public function get_game(int $id)
@@ -29,9 +29,9 @@ class GameService
         return $this->gameModel->get_game_by_name($name);
     }
 
-    public function get_game_stats(string $name): array
+    public function game_stats(string $name): array
     {
-        return $this->gameModel->get_game_stats($name);
+        return $this->gameModel->game_stats($name);
     }
 
     public function game_exits(string $name)
@@ -39,6 +39,15 @@ class GameService
         return $this->gameModel->game_exits($name);
     }
 
+    public function game_stats_update(string $name, string $username, float $score)
+{
+    // Verifica se il record esiste, poi chiama aggiorna o crea
+    if ($this->gameModel->record_exist($name, $username)) {
+        return $this->gameModel->update_game_stats($name, $username, $score);
+    } else {
+        return $this->gameModel->create_game_stats($name, $username, $score);
+    }
+}
 
     // public function createStatistics() {
     //     // Ottieni tutti gli utenti

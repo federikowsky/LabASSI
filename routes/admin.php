@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'middleware' => ['EncryptCookiesMiddleware', 'AuthMiddleware', 'AdminMiddleware'], // Middleware condiviso per tutte le rotte admin
+    'middleware' => ['EncryptCookiesMiddleware', 'AdminMiddleware'], // Middleware condiviso per tutte le rotte admin
     'routes' => [
         '/admin' => [
             'controller' => 'AdminController',

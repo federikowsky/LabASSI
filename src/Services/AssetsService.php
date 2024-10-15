@@ -48,13 +48,14 @@ class AssetsService
 
         // Search for the specific CSS file
         $cssPath = "/css/{$viewName}.css";
-        if (file_exists(public_path() . $cssPath)) {
+
+        if (file_exists(path('public/') . $cssPath)) {
             $this->add_css($cssPath);
         }
 
         // Search for the specific JS file
         $jsPath = "/js/{$viewName}.js";
-        if (file_exists( public_path() . $jsPath)) {
+        if (file_exists( path('public/') . $jsPath)) {
             $this->add_js($jsPath);
         }
 

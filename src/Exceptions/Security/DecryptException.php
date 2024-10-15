@@ -5,7 +5,7 @@ namespace App\Exceptions\Security;
 use Exception;
 use App\Exceptions\BaseException;
 
-class EncryptionException extends BaseException
+class DecryptException extends BaseException
 {
     protected $message = 'Encryption error.';
     protected $code = 500;

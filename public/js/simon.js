@@ -75,46 +75,56 @@ $(".color").on("click", function () {
 });
 
 
-$(function () {
-    get_classifica();
-});
-
-
 /****************************** Gestione Classifica ******************************/
+
+// ottiene la classifica dal database, crea una tabella html e l'aggiunge all'oggetto con id specificato
+function renderClassifica(data) {
+    const container = $('.classifica');
+    container.empty();
+
+    let html = `
+    <h1 class="textSide">Classifica</h1>
+    <table>
+        <tr>
+            <th>Posizione</th>
+            <th>Username</th>
+            <th>Tempo</th>
+        </tr>
+    `;
+    data.forEach(function (value, index) {
+        html += `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${value.username}</td>
+            <td>${value.score}</td>
+        </tr>`;
+    });
+    html += '</table>';
+    container.html(html);
+}
 
 // ottiene la classifica dal database, crea una tabella html e l'aggiunge all'oggetto con id specificato
 function get_classifica() {
     $.ajax({
-        type: "POST",
-        url: "handle_db.php",
-        data: { gioco: "SIMON", funzione: "richiedi_classifica", order: "notReverse" },
-        dataType: "json",
-        success: function (response) {
-            var html = '<h1 class="textSide">Classifica</h1>'
-            html += '<table><thead><tr><th>Posizione</th><th>Username</th><th>Punteggio</th></tr></thead><tbody>';
-            $.each(response, function (i, item) {
-                html += '<tr><td>' + (i + 1) + '</td><td>' + item.username + '</td><td>' + item.punteggio + '</td></tr>';
-            });
-            html += '</tbody></table>';
-            $('.classifica').html(html);
+        type: "GET",
+        url: "/api/simon_stats",
+        success: function (data) {
+            renderClassifica(data);
         },
         error: function (xhr, status, error) {
             console.log("Errore: " + xhr.responseText);
         }
     });
-};
+}
 
 // aggiorna la classifica nel database
 function aggiornaClassifica() {
-    var logged = localStorage.getItem('isLoggedIn');
-    if (logged == "null" || logged === "false")
-        return;
-    var username = localStorage.getItem('username');
-    var email = localStorage.getItem('email');
     $.ajax({
         type: "POST",
-        url: "handle_db.php",
-        data: { gioco: "SIMON", order: "notReverse", funzione: "aggiorna_classifica", punteggio: level, username: username, email: email },
+        url: "/api/simon_stats_update",
+        data: {
+            score: level
+        },
         success: function (data) {
             get_classifica();
         },

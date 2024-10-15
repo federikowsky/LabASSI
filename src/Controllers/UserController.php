@@ -14,7 +14,6 @@ class UserController extends BaseController
     {
         $this->userService = $userService;
         $this->user = $this->userService->user();
-
     }
 
     public function index()

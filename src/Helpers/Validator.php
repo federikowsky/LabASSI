@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Facades\CWT;
 use App\Models\User;
 
 class Validator

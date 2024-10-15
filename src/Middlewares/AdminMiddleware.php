@@ -19,8 +19,7 @@ class AdminMiddleware
         // Verifica se l'utente è loggato
         if (!$this->userService->is_admin()) {
             // L'utente non è autenticato, quindi reindirizza al login
-            header('Location: /');
-            return;
+            return redirect('/');
         }
 
         // L'utente è autenticato, quindi esegui il prossimo step della richiesta

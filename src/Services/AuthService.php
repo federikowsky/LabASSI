@@ -103,7 +103,7 @@ class AuthService
     {
         if ($this->is_user_logged_in())
         {
-            $this->userModel->delete_user_token(session()->get('user_id'));
+            $this->userModel->delete_user_token((int) session()->get('user_id'));
             session()->remove('username');
             session()->remove('user_id');
             /**

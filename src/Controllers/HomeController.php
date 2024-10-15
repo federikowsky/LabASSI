@@ -21,7 +21,7 @@ class HomeController extends BaseController
 
     public function index()
     {
-        $games = $this->gameService->get_games();
+        $games = $this->gameService->games();
 
         $games = array_map(function ($game) {
             $game['link'] = empty($game['name']) 

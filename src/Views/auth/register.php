@@ -44,7 +44,7 @@
 						</div>
 
 						<div>
-							<label for="agree">
+							<label for="agree" class="fs-6">
 								<input type="checkbox" name="agree" id="agree" value="checked" <?= $inputs['agree'] ?? '' ?> /> I agree with the <a href="#" title="term of services">term of services</a>
 							</label>
 							<small><?= $errors['agree'] ?? '' ?></small>
@@ -55,6 +55,20 @@
 						</div>
 
 					</form>
+					<!-- Button for Google Sign Up -->
+					<div class="d-flex align-items-center flex-column">
+						<div class="pb-3">
+							<p class="social-text text-white text fs-6">OR</p>
+						</div>
+						<div class="social-login d-flex flex-column flex-md-row align-items-center">
+							<a href="/auth/google" class="provider-btn text-white text-center bg-danger mx-md-1 my-2 my-md-0 w-100 w-md-auto">
+								<i class="fab fa-google"></i> Sign in with Google
+							</a>
+							<a href="#" class="provider-btn text-white text-center bg-primary mx-md-1 my-2 my-md-0 w-100 w-md-auto">
+								<i class="fab fa-facebook"></i> Sign in with Facebook
+							</a>
+						</div>
+					</div>
 					<p class="loginhere">
 						Have already an account ? <a href="/auth/login" class="loginhere-link">Login here</a>
 					</p>

@@ -4,6 +4,7 @@
 namespace App\Models;
 
 use PDO;
+use PDOStatement;
 
 class User {
     protected $db;
@@ -11,6 +12,15 @@ class User {
     public function __construct(PDO $db)
     {
         $this->db = $db;
+    }
+
+    private function execute(PDOStatement $stmt): bool
+    {
+        try {
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -27,7 +37,7 @@ class User {
             $stmt->bindValue($key, $value);
         }
 
-        $stmt->execute();
+        $this->execute($stmt);
         return $stmt;
     }
 
@@ -44,7 +54,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $user_id);
-        $stmt->execute();
+        $this->execute($stmt);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -66,7 +76,7 @@ class User {
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':email', $email);
         $stmt->bindValue(':username', $username);
-        $stmt->execute();
+        $this->execute($stmt);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -103,7 +113,7 @@ class User {
         $stmt->bindValue(':activation_expiry', date('Y-m-d H:i:s', time() + $expiry));
 
 
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -120,7 +130,7 @@ class User {
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
     
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -156,7 +166,7 @@ class User {
         }
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -171,7 +181,7 @@ class User {
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $id);
 
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -190,7 +200,7 @@ class User {
         $stmt->bindValue(':hashed_validator', hash_hmac('sha256', $validator, SECRET_KEY));
         $stmt->bindValue(':expiry', $expiry);
 
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -205,7 +215,7 @@ class User {
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':user_id', $user_id);
 
-        return $stmt->execute();
+        return $this->execute($stmt);
     }
 
     /**
@@ -221,7 +231,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':email', $email);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -239,7 +249,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':username', $username);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -257,7 +267,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $id);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -277,7 +287,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':activation_code', $hashed_activation_code);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -299,7 +309,7 @@ class User {
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':activation_code', $hashed_activation_code);
         $stmt->bindValue(':email', $email);
-        $stmt->execute();
+        $this->execute($stmt);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -331,7 +341,7 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':selector', $selector);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -352,8 +362,83 @@ class User {
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':selector', $selector);
-        $stmt->execute();
+        $this->execute($stmt);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Find a user by oauth provider
+     * @param string $provider
+     * @param string $provider_id
+     * @return array
+     */
+    public function find_by_oauth_provider(string $provider, string $provider_id): ?array
+    {
+        $query = "SELECT u.* FROM users u
+                  JOIN user_oauth o ON u.id = o.user_id
+                  WHERE o.provider = :provider AND o.provider_id = :provider_id";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':provider', $provider);
+        $stmt->bindValue(':provider_id', $provider_id);
+        $this->execute($stmt);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+    
+    /**
+     * Register a user with oauth
+     * @param array $user_data
+     * @return int|bool
+     */
+    public function register_oauth_user(array $user_data): int|bool
+    {
+        $query = 'INSERT INTO users(username, email, password, active, created_at)
+                  VALUES(:username, :email, NULL, 1, :created_at)';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':username', $user_data['username']);
+        $stmt->bindValue(':email', $user_data['email']);
+        $stmt->bindValue(':created_at', date('Y-m-d H:i:s'));
+
+        if ($this->execute($stmt)) {
+            $user_id = $this->db->lastInsertId();
+
+            $oauth_query = 'INSERT INTO user_oauth(user_id, provider, provider_id, refresh_token, created_at)
+                            VALUES(:user_id, :provider, :provider_id, :refresh_token, :created_at)';
+
+            $oauth_stmt = $this->db->prepare($oauth_query);
+            $oauth_stmt->bindValue(':user_id', $user_id);
+            $oauth_stmt->bindValue(':provider', $user_data['oauth_provider']);
+            $oauth_stmt->bindValue(':provider_id', $user_data['provider_id']);
+            $oauth_stmt->bindValue(':refresh_token', $user_data['refresh_token']);
+            $oauth_stmt->bindValue(':created_at', date('Y-m-d H:i:s'));
+
+            if ($this->execute($oauth_stmt))
+                return $user_id;
+        }
+
+        throw new \Exception('Failed to register OAuth user.');
+    }
+
+    /**
+     * Update the refresh token for a user
+     * @param int $user_id
+     * @param string $refresh_token
+     * @return bool
+     */
+    public function update_refresh_token(int $user_id, string $refresh_token): bool
+    {
+        $query = 'UPDATE user_oauth SET refresh_token = :refresh_token, updated_at = :updated_at
+                  WHERE user_id = :user_id AND provider = "google"';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':user_id', $user_id);
+        $stmt->bindValue(':refresh_token', $refresh_token);
+        $stmt->bindValue(':updated_at', date('Y-m-d H:i:s'));
+
+        return $this->execute($stmt);
     }
 }

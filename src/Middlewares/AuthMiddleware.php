@@ -19,8 +19,7 @@ class AuthMiddleware
         // Verifica se l'utente è loggato
         if (!$this->authService->is_user_logged_in()) {
             // L'utente non è autenticato, quindi reindirizza al login
-            header('Location: /auth/login');
-            return;
+            return redirect('/auth/login');
         }
 
         // L'utente è autenticato, quindi esegui il prossimo step della richiesta

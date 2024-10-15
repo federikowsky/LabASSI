@@ -1,0 +1,81 @@
+h2 {
+    line-height: 1.66;
+    margin: 0;
+    padding: 0;
+    font-weight: 900;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 40px;
+    background-image: url("https://assets.website-files.com/61c070585317d242d3a59789/61c070585317d282fba597e2_user.jpeg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    background-clip: text;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.reset-body {
+	font-size: 14px;
+	line-height: 1.8;
+	color: #222;
+	font-weight: 400;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	padding: 80px 0 115px 0;
+
+}
+
+
+.reset-content {
+    background: var(--blue-opaco);
+    padding: 50px 85px;
+    border-radius: 30px;
+    width: 660px;
+    margin: 0 auto;
+    color: #fff;
+
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-input {
+    width: 100%;
+    border: 1px solid #ebebeb;
+    border-radius: 5px;
+    padding: 17px 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-submit {
+    width: 100%;
+    border-radius: 5px;
+    padding: 17px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    color: var(--blue);
+    border: 3px solid var(--yellow);
+    border-radius: 35px;
+    background-color: var(--yellow);
+}
+
+.other-options {
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 5px;
+}
+
+.registerhere-link {
+    font-weight: 700;
+    color: var(--yellow);
+}

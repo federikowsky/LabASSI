@@ -40,7 +40,7 @@ class AuthController extends BaseController
         if (request()->is_method('post')) {
             $fields = [
                 'csrf_token' => 'string',
-                'username' => 'string | required | alphanumeric | between: 3, 25 | unique: users, username',
+                'username' => 'string | required | alphanumeric | between: 3, 45 | unique: users, username',
                 'email' => 'email | required | email | unique: users, email',
                 'password' => 'string | required | secure',
                 'password2' => 'string | required | same: password',
@@ -307,7 +307,7 @@ class AuthController extends BaseController
                     'Your password has been reset successfully.'
                 );
             }
-            return view('auth/reset_password')->with_input([
+            return view('auth/reset')->with_input([
                 'errors' => $errors,
                 'inputs'=> $inputs
             ]);
@@ -326,12 +326,12 @@ class AuthController extends BaseController
             [$inputs, $errors] = $this->filter->filter(request()->get(), $fields, $messages);
 
             if (!$errors) {
-                return view('auth/reset_password')->with_input([
+                return view('auth/reset')->with_input([
                     'errors' => $errors,
                     'inputs'=> $inputs
                 ]);
             }
-            return redirect('auth/forgot_password')->with_message(
+            return redirect('auth/forgot')->with_message(
                 'The reset link is not valid, please try again.', 
                 Flash::FLASH_ERROR
             );
@@ -367,7 +367,7 @@ class AuthController extends BaseController
             [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
 
             if ($errors) {
-                return view('auth/forgot_password')->with_input([
+                return view('auth/forgot')->with_input([
                     'errors' => $errors,
                     'inputs'=> $inputs
                 ]);
@@ -385,7 +385,7 @@ class AuthController extends BaseController
  
         } elseif (request()->is_method('get')) {
             [$errors, $inputs] = session_flash('errors', 'inputs');
-            return view('auth/forgot_password')->with_input([
+            return view('auth/forgot')->with_input([
                 'errors' => $errors,
                 'inputs'=> $inputs
             ]);

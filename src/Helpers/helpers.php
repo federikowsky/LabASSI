@@ -134,34 +134,19 @@ function ewt_field($tk): string
     return '<input type="hidden" name="ewt" value="' . htmlspecialchars($tk) . '">';
 }
 
-function public_path(): string
+/**
+ * Return the path to the target directory from the base directory
+ *
+ * @param string $target_path
+ * @return string
+ */
+function path(string $target_path): string
 {
-        // Ottieni il percorso della directory corrente
-        $currentDir = __DIR__;
+    // Get the base directory of the project (assuming it is one level up from the current directory)
+    $base_dir = realpath(__DIR__ . '/../..');
 
-        // Definisci il target (cartella public)
-        $targetDir = 'public';
-    
-        // Scopri la root del progetto (o la base directory)
-        $baseDir = realpath(__DIR__ . '/..');  // Assumi che il progetto sia strutturato con una root comune
-    
-        // Trova la directory pubblica
-        $targetPath = $baseDir . DIRECTORY_SEPARATOR . $targetDir;
-    
-        // Conta quanti livelli devi risalire per arrivare alla root del progetto
-        $relativePath = '';
-        $currentPathParts = explode(DIRECTORY_SEPARATOR, $currentDir);
-        $basePathParts = explode(DIRECTORY_SEPARATOR, $baseDir);
-    
-        $upLevels = count($currentPathParts) - count($basePathParts);
-    
-        // Risali di $upLevels per arrivare alla root
-        for ($i = 0; $i < $upLevels; $i++) {
-            $relativePath .= '../';
-        }
-    
-        // Torna alla cartella public dalla base directory
-        return $relativePath . $targetDir . '/';
+    // Return the target directory path by appending the directory name to the base path
+    return $base_dir . DIRECTORY_SEPARATOR . trim($target_path, DIRECTORY_SEPARATOR);
 }
 
 /**

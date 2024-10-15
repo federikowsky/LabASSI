@@ -9,7 +9,6 @@
                         <h1 class="textCenter"><?php echo htmlspecialchars($gameName); ?></h1>
                     </div>
                     <div class="container classifica d-flex justify-content-center" id="classifica<?php echo strtolower($gameName); ?>">
-                        <h1 class="textSide">Classifica</h1>
                         <table>
                             <thead>
                                 <tr>

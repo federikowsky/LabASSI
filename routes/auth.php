@@ -45,5 +45,17 @@ return [
             'name' => 'auth.update_password',
             'middleware' => []
         ],
+        '/auth/{provider}' => [
+            'controller' => 'OAuthController',
+            'method' => 'redirect_to_provider',
+            'name' => 'auth.provider.redirect',
+            'middleware' => []
+        ],
+        '/auth/{provider}/callback' => [
+            'controller' => 'OAuthController',
+            'method' => 'handle_provider_callback',
+            'name' => 'auth.provider.callback',
+            'middleware' => []
+        ],
     ]
 ];

@@ -1,12 +1,24 @@
 <?php
 
 return [
-    'middleware' => ['EncryptCookiesMiddleware'], // Middleware condiviso per tutte le rotte admin
+    'middleware' => ['EncryptCookiesMiddleware', 'JWTMiddleware'], // Middleware condiviso per tutte le rotte admin
     'routes' => [
-        '/api/get_games' => [
+        '/api/games' => [
             'controller' => 'GameController',
-            'method' => 'get_games',
-            'name' => 'api.get_games',
+            'method' => 'games',
+            'name' => 'api.games',
+            'middleware' => []
+        ],
+        '/api/{name}_stats' => [
+            'controller' => 'GameController',
+            'method' => 'game_stats',
+            'name' => 'api.game.stats',
+            'middleware' => []
+        ],
+        '/api/{name}_stats_update' => [
+            'controller' => 'GameController',
+            'method' => 'game_stats_update',
+            'name' => 'api.game.update',
             'middleware' => []
         ],
     ]
