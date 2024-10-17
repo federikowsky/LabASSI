@@ -19,7 +19,6 @@
         </div>
         <div class="descriptionAbout">
             <p>
-                Il nostro team di sviluppo è composto da tre membri altamente appassionati.
                 Siamo consapevoli dell'importanza dell'usabilità e dell'accessibilità del sito web, per questo abbiamo adottato
                 le migliori pratiche di design e sviluppo per garantire una navigazione semplice e intuitiva, senza alcuna complicazione.
                 Siamo orgogliosi di presentare il nostro sito di minigiochi per l'Università La Sapienza e ci auguriamo che possa
