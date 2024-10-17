@@ -16,6 +16,11 @@ class UserService
         $this->authService = $authService;
     }
 
+    public function get_users(): array
+    {
+        return $this->userModel->all();
+    }
+
     public function user($key = null)
     {
         if ($this->authService->is_user_logged_in()) {

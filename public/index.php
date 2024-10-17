@@ -10,7 +10,7 @@ use App\Core\Logger;
 use App\HTTP\Router;
 
 // Set the exception handler
-$exceptionHandler = new ExceptionManager($container->getLazy(Logger::class));
+$exceptionHandler = new ExceptionManager();
 set_exception_handler([$exceptionHandler, 'handle']);
 
 // Initialize the router

@@ -15,5 +15,11 @@ return [
             'name' => 'about_us',
             'middleware' => []
         ],
+        '/tournaments' => [
+            'controller' => 'TournamentController',
+            'method' => 'index',
+            'name' => 'tournaments',
+            'middleware' => []
+        ],
     ]
 ];

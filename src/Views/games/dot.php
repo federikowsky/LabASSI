@@ -2,7 +2,11 @@
     <div class="row">
         <!-- Gioco al centro -->
         <div class="col-md-8 offset-md-1 mb-sm-5 d-flex justify-content-center">
-            <div class="game text-center">
+            <div class="game text-center" 
+                <?php if ($id): ?>
+                    data-id="<?= $id?>"
+                <?php endif; ?>    
+            >
                 <div class="row">
                     <div class="col-12">
                         <h1 class="textCenter">DOT</h1>

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'middleware' => ['EncryptCookiesMiddleware', 'JWTMiddleware'], // Middleware condiviso per tutte le rotte admin
+    'middleware' => ['EncryptCookiesMiddleware'], // Middleware condiviso per tutte le rotte admin
     'routes' => [
         '/api/games' => [
             'controller' => 'GameController',

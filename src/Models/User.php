@@ -41,6 +41,14 @@ class User {
         return $stmt;
     }
 
+    public function all() {
+        $query = 'SELECT id, username, email, is_admin, active
+                FROM users';
+
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Check if a user is an admin
      * @param mixed $user_id

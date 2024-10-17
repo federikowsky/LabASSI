@@ -76,8 +76,15 @@ class View extends BaseResponse
         // the second element is an array of js files
         [$css_files, $js_files] = assets($this->view);
 
+        // if section admin is set, require the admin header
         require_once __DIR__ . "/../Views/inc/head.php";
-        require_once __DIR__ . "/../Views/Inc/header.php";
+
+        if (strpos($this->view, 'admin') !== false) {
+            require_once __DIR__ . "/../Views/Inc/admin_header.php";
+        } else {
+            require_once __DIR__ . "/../Views/Inc/header.php";
+        }
+
         require_once __DIR__ . "/../Views/{$this->view}.php";
         require_once __DIR__ . "/../Views/Inc/footer.php";
         return ob_get_clean();

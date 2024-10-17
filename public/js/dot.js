@@ -110,7 +110,23 @@ $(() => {
 				console.log("Errore: " + xhr.responseText);
 			}
 		});
+
+		var match_id = $('.game').attr('data-id');
+		if (match_id) {
+			var tournament_id = window.location.pathname.split('/')[2];
+			$.ajax({
+				type: "POST",
+				url: "/tournaments/" + tournament_id + "/match/" + match_id + "/result",
+				data: {
+					score: score,
+				},
+				success: function (data) {
+					window.location.href = "/tournaments/" + tournament_id + "/dashboard";
+				},
+				error: function (xhr, status, error) {
+					console.log("Errore: " + xhr.responseText);
+				}
+			});
+		}
 	}
-
-
 });

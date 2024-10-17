@@ -33,6 +33,10 @@
                 </div>
                 <div class="header-link-container mx-2">
                     <img src="/assets/forme.png" alt="" class="jumping-foto2">
+                    <a class="nav-item nav-link" href="/tournaments">Tornei</a>
+                </div>
+                <div class="header-link-container mx-2">
+                    <img src="/assets/forme.png" alt="" class="jumping-foto2">
                     <a class="nav-item nav-link" href="/game/ranking">Classifiche</a>
                 </div>
                 <?php if ($logged): ?>
@@ -62,6 +66,10 @@
 <div class="dropdown-nav-container">
     <div class="dropdown-wrapp">
         <a class="nav-item nav-link dropdown-link" href="/about-us">About Us</a>
+    </div>
+    <div class="dropdown-separator"></div>
+    <div class="dropdown-wrapp">
+        <a class="nav-item nav-link dropdown-link" href="/tournaments">Tornei</a>
     </div>
     <div class="dropdown-separator"></div>
     <div class="dropdown-wrapp">
@@ -99,4 +107,3 @@
 
 
 <main class="d-flex flex-fill flex-column justify-content-center">
-    <!-- <div class="header-spacer"></div> -->

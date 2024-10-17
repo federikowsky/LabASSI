@@ -2,17 +2,15 @@
 
 namespace App\Core;
 
-use App\Core\Logger;
 use App\Exceptions\BaseException;
+use App\Facades\Logger;
+
 use Throwable;
 
 class ExceptionManager
 {
-    protected $logger;
-
-    public function __construct(Logger $logger)
+    public function __construct()
     {
-        $this->logger = $logger;
     }
 
     protected function to_html(string $view, int $status)
@@ -76,7 +74,7 @@ class ExceptionManager
             $exception->getTraceAsString()
         );
 
-        $this->logger->error($message);
+        Logger::error($message);
     }
 
     protected function is_api(): bool

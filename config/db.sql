@@ -74,3 +74,44 @@ CREATE TABLE game_data (
             ON DELETE CASCADE
             ON UPDATE CASCADE
 );
+
+CREATE TABLE tournaments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL UNIQUE,
+    description TEXT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NULL,
+    status ENUM('upcoming', 'ongoing', 'completed') DEFAULT 'upcoming',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE dummy_players (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE
+);
+
+CREATE TABLE tournament_participants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    participant_id INT NOT NULL, 
+    is_dummy BOOLEAN DEFAULT FALSE, 
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE
+);
+
+CREATE TABLE matches (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    participant1_id INT DEFAULT NULL, 
+    participant2_id INT DEFAULT NULL, 
+    is_dummy1 BOOLEAN DEFAULT FALSE, 
+    is_dummy2 BOOLEAN DEFAULT FALSE, 
+    match_time DATETIME NOT NULL,
+    round INT NOT NULL,
+    status ENUM('upcoming', 'ongoing', 'completed') DEFAULT 'upcoming',
+    result VARCHAR(255) DEFAULT NULL,
+    winner_id INT DEFAULT NULL,
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE
+);

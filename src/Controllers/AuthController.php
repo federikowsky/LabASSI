@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Services\AuthService;
-use App\Helpers\Filter;
 use App\Core\Logger;
 use App\Core\Flash;
-use App\Facades\EWT;
+use App\Facades\ {
+    EWT,
+    Filter
+};
 
 use App\Exceptions\HTTP\MethodNotAllowedException;
 use App\Services\UserService;
@@ -16,14 +18,10 @@ class AuthController extends BaseController
 {
     protected $authService;
     protected $userService;
-    protected $filter;
-    protected $logger;
 
-    public function __construct(AuthService $authService, UserService $userService , Filter $filter, Logger $logger) {
+    public function __construct(AuthService $authService, UserService $userService) {
         $this->authService = $authService;
         $this->userService = $userService;
-        $this->filter = $filter;
-        $this->logger = $logger;
     }
 
     /*************************************** Registration ***************************************/
@@ -40,7 +38,7 @@ class AuthController extends BaseController
         if (request()->is_method('post')) {
             $fields = [
                 'csrf_token' => 'string',
-                'username' => 'string | required | alphanumeric | between: 3, 45 | unique: users, username',
+                'username' => 'string | required | alphanumeric | between: 3, 25 | unique: users, username',
                 'email' => 'email | required | email | unique: users, email',
                 'password' => 'string | required | secure',
                 'password2' => 'string | required | same: password',
@@ -57,7 +55,7 @@ class AuthController extends BaseController
                 ],
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->post(), $fields, $messages);
 
             if ($errors) {
                 return view('auth/register')->with_input([
@@ -119,7 +117,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->post(), $fields, $messages);
 
             if ($errors) {
                 return view('auth/login')->with_input([
@@ -188,7 +186,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->get(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->get(), $fields, $messages);
 
             if (!$errors) {
                 $payload = EWT::decode($inputs['ewt']);
@@ -245,7 +243,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->post(), $fields, $messages);
             if (!$errors) {
                 $email = $this->userService->user('email');
 
@@ -296,7 +294,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->post(), $fields, $messages);
 
             if (!$errors) {
                 $payload = EWT::decode($inputs['ewt']);
@@ -323,7 +321,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->get(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->get(), $fields, $messages);
 
             if (!$errors) {
                 return view('auth/reset')->with_input([
@@ -364,7 +362,7 @@ class AuthController extends BaseController
                 ]
             ];
 
-            [$inputs, $errors] = $this->filter->filter(request()->post(), $fields, $messages);
+            [$inputs, $errors] = Filter::filter(request()->post(), $fields, $messages);
 
             if ($errors) {
                 return view('auth/forgot')->with_input([
