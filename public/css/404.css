@@ -1,9 +1,7 @@
 
 
 .body-404 {
-    background-color: var(--blue-opaco);
     display: flex;
-    margin-top: 50px;
     font-family: 'Press Start 2P';
     color: #FFFFFF;
     text-align: center;

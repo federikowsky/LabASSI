@@ -8,7 +8,7 @@
         <div class="descriptionAbout">
             <p>
                 Benvenuti nella pagina "About Us" del nostro progetto di sito web per l'Università La Sapienza.
-                Siamo tre studenti di ingegneria informatica appassionati di sviluppo web e abbiamo deciso di creare
+                Siamo studenti di ingegneria informatica appassionati di sviluppo web e abbiamo deciso di creare
                 un sito di minigiochi per offrire un'esperienza di gioco divertente e coinvolgente ai nostri visitatori.
                 Il nostro obiettivo principale è quello di offrire ai nostri utenti un'ampia selezione di giochi divertenti
                 e coinvolgenti, in modo da soddisfare ogni tipo di interesse e preferenza.
