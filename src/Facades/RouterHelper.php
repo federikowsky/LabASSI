@@ -3,7 +3,7 @@
 namespace App\Facades;
 
 use App\Facades\BaseFacade;
-use App\HTTP\Support\RouterHelper as RouterHelperService;
+use App\Http\Support\RouterHelper as RouterHelperService;
 
 class RouterHelper extends BaseFacade
 {

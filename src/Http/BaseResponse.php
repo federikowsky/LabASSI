@@ -1,9 +1,9 @@
 <?php
 
-namespace App\HTTP;
+namespace App\Http;
 
 use App\Facades\Encrypt;
-use App\HTTP\ResponseData;
+use App\Http\ResponseData;
 
 class BaseResponse
 {

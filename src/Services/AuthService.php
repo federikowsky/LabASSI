@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\HTTP\Support\UrlGenerator;
+use App\Http\Support\UrlGenerator;
 use App\Models\User;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -63,9 +63,20 @@ class AuthService
         return bin2hex(random_bytes(32));
     }
     
-    public function register(string $email, string $username, string $password, string $activation_code): bool
+    public function register(string $username, string $email, string $password, string $activation_code): bool
     {
-        return $this->userModel->create($email, $username, $password, $activation_code);
+        // Verifica dei campi richiesti
+        if (empty($username) || empty($email) || empty($password)) {
+            return false;
+        }
+
+        // Controllo sulla lunghezza massima del username
+        if (strlen($username) > 25) {
+            return false;
+        }
+
+        // Chiamata alla funzione `create` del modello User
+        return $this->userModel->create($username, $email, $password, $activation_code);
     }
 
     /*************************************** Login ***************************************/

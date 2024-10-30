@@ -2,10 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
-use App\HTTP\Router;
+use App\Http\Router;
 use App\Core\ServiceContainer;
-use App\HTTP\Support\UrlGenerator;
-use App\HTTP\Support\RouterHelper;
+use App\Http\Support\UrlGenerator;
+use App\Http\Support\RouterHelper;
 use App\Facades\BaseFacade;
 
 class RouterHelperTest extends TestCase

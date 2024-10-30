@@ -1,6 +1,6 @@
 <?php
 
-namespace App\HTTP;
+namespace App\Http;
 
 use App\Core\Flash;
 

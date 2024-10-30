@@ -3,7 +3,7 @@
 use App\Core\ServiceContainer;
 use PHPUnit\Framework\TestCase;
 use App\Http\Request;
-use App\HTTP\Router;
+use App\Http\Router;
 
 class RequestTest extends TestCase
 {

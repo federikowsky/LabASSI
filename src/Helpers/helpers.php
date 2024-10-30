@@ -4,7 +4,7 @@ use App\Core\ServiceContainer;
 
 use App\Services\AssetsService;
 
-use App\HTTP\ {
+use App\Http\ {
     View,
     Response,
     Redirect,

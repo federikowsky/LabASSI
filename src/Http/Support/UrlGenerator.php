@@ -1,6 +1,6 @@
 <?php
 
-namespace App\HTTP\Support;
+namespace App\Http\Support;
 
 use App\Facades\RouterHelper;
 

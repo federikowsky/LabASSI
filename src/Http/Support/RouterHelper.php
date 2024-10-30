@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\HTTP\Support;
+namespace App\Http\Support;
 
-use App\HTTP\Router;
+use App\Http\Router;
 
 class RouterHelper
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\HTTP;
+namespace App\Http;
 
-use App\HTTP\Cookie;
+use App\Http\Cookie;
 
 class ResponseData
 {

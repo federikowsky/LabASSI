@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/app.php';
 
 use App\Core\ExceptionManager;
 use App\Core\Logger;
-use App\HTTP\Router;
+use App\Http\Router;
 
 // Set the exception handler
 $exceptionHandler = new ExceptionManager();

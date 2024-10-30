@@ -1,10 +1,10 @@
 <?php
 
-namespace App\HTTP;
+namespace App\Http;
 
 use App\Core\Flash;
-use App\HTTP\BaseResponse;
-use App\HTTP\Support\UrlGenerator;
+use App\Http\BaseResponse;
+use App\Http\Support\UrlGenerator;
 
 class Redirect extends BaseResponse
 {

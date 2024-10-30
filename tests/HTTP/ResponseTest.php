@@ -3,7 +3,7 @@
 
 use App\Core\ServiceContainer;
 use PHPUnit\Framework\TestCase;
-use App\HTTP\Response;
+use App\Http\Response;
 
 use App\Facades\BaseFacade;
 

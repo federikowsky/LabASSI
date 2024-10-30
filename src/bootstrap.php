@@ -9,7 +9,7 @@ use App\Core\ {
 use App\Facades\ {
     BaseFacade
 };
-use App\HTTP\ {
+use App\Http\ {
     Router
 };
 

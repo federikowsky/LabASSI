@@ -2,9 +2,9 @@
 
 use App\Core\ServiceContainer;
 use App\Core\Session;
-use App\HTTP\Redirect;
+use App\Http\Redirect;
 use App\Facades\BaseFacade;
-use App\HTTP\Router;
+use App\Http\Router;
 use App\Session\SessionManager;
 
 use PHPUnit\Framework\TestCase;
@@ -45,7 +45,6 @@ class RedirectTest extends TestCase
         $this->container->registerLazy(Session::class, function() use ($session_manager) {
             return new Session($session_manager->driver());;
         });
-
 
         $this->redirect = $this->container->getLazy(Redirect::class);
     }
